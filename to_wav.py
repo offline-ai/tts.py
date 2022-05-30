@@ -1,4 +1,5 @@
 import asyncio
+import re
 import typing
 import tempfile
 import hashlib
@@ -9,6 +10,8 @@ import math
 import gruut
 
 from pathlib import Path
+
+from offlinetts.tts.tts_base import LOGGER
 
 from .tts import LOGGER as _LOGGER, TTSBase
 
@@ -250,11 +253,23 @@ async def ssml_to_wavs(
             # Skip empty sentences
             continue
 
-        sent_voice = default_voice
+        sent_voice = None
         if sentence.voice:
             sent_voice = sentence.voice
-        elif sentence.lang and (sentence.lang != default_lang):
-            sent_voice = sentence.lang
+        elif sentence.lang: # and (sentence.lang != default_lang):
+            if default_voice:
+                voice = default_voice
+                if "#" in voice:
+                    voice, _ = default_voice.split("#", maxsplit=1)
+                if ":" in voice:
+                    _, lang = voice.split(":", maxsplit=1)
+                lang = re.split(r"[-_]", lang, maxsplit=1)[0]
+                if lang == sentence.lang:
+                    sent_voice = default_voice
+            if not sent_voice:
+                sent_voice = sentence.lang
+        else:
+            sent_voice = default_voice
 
         sent_voice = TTSBase.resolve_voice(sent_voice)
 
