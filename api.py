@@ -197,7 +197,12 @@ def get_blueprint(app) -> Blueprint:
         return _VERSION
 
     # Swagger UI
-    api_doc(app, config_path="offlinetts/swagger.yaml", url_prefix="/api", title="OfflineTTS")
+    api_doc(app,
+        config_path="offlinetts/swagger.yaml",
+        url_prefix="/api",
+        title="OfflineTTS",
+        parameters={"validatorUrl": "\"None\""}
+    )
 
 
     @blueprint.errorhandler(Exception)
