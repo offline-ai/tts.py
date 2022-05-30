@@ -1,4 +1,4 @@
-# Offline TTS
+# Offline TTS API Library
 
 The `voice` format is `<TTS System>:<Voice Name>[#<Speaker ID>`. The `Speaker ID` is optional for multi speakers model only.
 
