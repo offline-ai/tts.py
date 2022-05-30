@@ -2,11 +2,11 @@ openapi: "3.0.0"
 info:
   title: 'OfflineTTS'
   version: '1.0.0'
-  description: 'Open Text to Speech API'
+  description: 'Offline Text to Speech API'
 schemes:
   - http
 servers:
-  - url: http://localhost:5500
+  - url: http://localhost:59125
     description: Local server
 paths:
   /api/tts:
