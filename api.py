@@ -182,7 +182,7 @@ def get_blueprint(app) -> Blueprint:
     async def api_voices():
         """MaryTTS-compatible /voices endpoint"""
         voices = []
-        for tts_name, tts in _TTS.items():
+        for tts_name, tts in TTSBase._TTSList.items():
             async for voice in tts.voices():
                 # Prepend TTS system name to voice ID
                 full_id = f"{tts_name}:{voice.id}"
