@@ -1,5 +1,65 @@
 # Offline TTS
 
+The `voice` format is `<TTS System>:<Voice Name>[#<Speaker ID>`. The `Speaker ID` is optional for multi speakers model only.
+
+The following TTS Engines used:
+
+* [Coqui-TTS](http://coqui.ai/): Patched and embedded version of Coqui-TTS latest dev(0.7.0) version
+  * TTS System name: `tts`
+  * Voice quality: Good
+  * Performance: Not Good, You need a powerful CPU and enough memory
+  * Resource overhead: High
+  * Builtin Voice Models:
+    * `zh_baker`: Chinese Voice from baker [F]
+    * `en_vctk`: English Multi Speakers Voice [MF]
+* [ESpeaker](http://espeak.sourceforge.net)
+  * TTS System name: `espeak`
+  * Voice quality: Bad, like robotic.
+  * Performance: Very Good
+  * Resource overhead: Low
+  * Builtin Voice Models:
+    * `en-029`: English_(Caribbean) [M]
+    * `en-gb`: English_(Great_Britain) [M]
+    * `en-gb-scotland`: English_(Scotland) [M]
+    * `en-gb-x-gbclan`: English_(Lancaster) [M]
+    * `en-gb-x-gbcwmd`: English_(West_Midlands) [M]
+    * `en-gb-x-rp`: English_(Received_Pronunciation) [M]
+    * `en-us`: English_(America) [M]
+    * `zh-cmn`: Chinese_(Mandarin) [M]
+    * `zh-yue`: Chinese_(Cantonese) [M]
+
+If your input text begins with a left angle bracket (`<`) character, it will be interpreted as [SSML](#ssml).
+
+## SSML
+
+A subset of [SSML](https://www.w3.org/TR/speech-synthesis11/) is supported:
+
+* `<speak>` - wrap around SSML text
+  * `lang` - set language for document
+* `<s>` - sentence (disables automatic sentence breaking)
+  * `lang` - set language for sentence
+* `<w>` / `<token>` - word (disables automatic tokenization)
+* `<voice name="...">` - set voice of inner text
+  * `voice` - name or language of voice
+    * Name format is `tts:voice` (e.g., "glow-speak:en-us_mary_ann") or `tts:voice#speaker_id` (e.g., "coqui-tts:en_vctk#p228")
+    * If one of the supported languages, a preferred voice is used (override with `--preferred-voice <lang> <voice>`)
+* `<say-as interpret-as="">` - force interpretation of inner text
+  * `interpret-as` one of "spell-out", "date", "number", "time", or "currency"
+  * `format` - way to format text depending on `interpret-as`
+    * number - one of "cardinal", "ordinal", "digits", "year"
+    * date - string with "d" (cardinal day), "o" (ordinal day), "m" (month), or "y" (year)
+* `<break time="">` - Pause for given amount of time
+  * time - seconds ("123s") or milliseconds ("123ms")
+* `<sub alias="">` - substitute `alias` for inner text
+
+eg,
+
+```xml
+<speak>
+  <s lang="zh">欢迎使用离线语音合成</s>
+  <s lang="en">Welcome to Offline Speech Synthesis.</s>
+</speak>
+```
 
 ## Credit
 
