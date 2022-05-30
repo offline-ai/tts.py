@@ -1,0 +1,97 @@
+openapi: "3.0.0"
+info:
+  title: 'OfflineTTS'
+  version: '1.0.0'
+  description: 'Open Text to Speech API'
+schemes:
+  - http
+servers:
+  - url: http://localhost:5500
+    description: Local server
+paths:
+  /api/tts:
+    get:
+      summary: 'Speak text to WAV'
+      parameters:
+        - in: query
+          name: voice
+          required: true
+          description: 'Voice in the form tts:voice or tts:voice#speaker_id'
+          schema:
+            type: string
+            example: 'tts:en'
+        - in: query
+          name: text
+          required: true
+          description: 'Text to speak'
+          schema:
+            type: string
+            example: 'Welcome to the world of speech synthesis!'
+        - in: query
+          name: cache
+          description: 'Use WAV cache if enabled (--cache, default: true)'
+          schema:
+            type: boolean
+            example: false
+      produces:
+        - audio/wav
+      responses:
+        '200':
+          description: audio
+          schema:
+            type: binary
+  /api/voices:
+    get:
+      summary: 'Get available voices'
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: language
+          description: 'Filter based on language(s)'
+          schema:
+            type: string
+            example: 'en'
+        - in: query
+          name: locale
+          description: 'Filter based on locale(s)'
+          schema:
+            type: string
+            example: 'en-us'
+        - in: query
+          name: gender
+          description: 'Filter based on gender(s): [M]ale, [F]emale'
+          schema:
+            type: string
+            enum: [M, F]
+            example: 'M'
+        - in: query
+          name: tts_name
+          description: 'Filter based on TTS system name(s)'
+          schema:
+            type: string
+            enum: [tts, espeak]
+            example: tts
+      responses:
+        '200':
+          description: voices
+          schema:
+            type: object
+  /api/languages:
+    get:
+      summary: 'Get available languages'
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: tts_name
+          description: 'Filter based on TTS system name(s)'
+          schema:
+            type: string
+            enum: [tts, espeak]
+            example: tts
+      responses:
+        '200':
+          description: languages
+          schema:
+            type: list
