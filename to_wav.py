@@ -22,24 +22,30 @@ _CACHE_DIR: typing.Optional[Path] = None
 _CACHE_TEMP_DIR: typing.Optional[tempfile.TemporaryDirectory] = None
 
 def cleanCache():
-  # Clean up WAV cache
-  if _CACHE_TEMP_DIR is not None:
-    _CACHE_TEMP_DIR.cleanup()
+    # Clean up WAV cache
+    if _CACHE_TEMP_DIR is not None:
+        _CACHE_TEMP_DIR.cleanup()
 
-def setCacheDir(dir: typing.Optional[typing.Union[str, bool]]):
-  if dir is not None:
-    if type(dir) == str:
-      # User-specified cache directory
-      _CACHE_DIR = Path(dir)
+def setCacheDir(cache_dir: typing.Optional[typing.Union[str, bool]]):
+    if type(cache_dir) is str:
+        if cache_dir.lower() in ['true', '1', 't', 'y', 'yes', 'ok']:
+            cache_dir = True
+        elif cache_dir.lower() in ['false', '0', 'f', 'n', 'no', 'not']:
+            cache_dir = None
+
+    if cache_dir is not None:
+        if type(cache_dir) == str:
+            # User-specified cache directory
+            _CACHE_DIR = Path(cache_dir)
+        else:
+            # Temporary directory
+            # pylint: disable=consider-using-with
+            _CACHE_TEMP_DIR = tempfile.TemporaryDirectory(prefix="offlinetts_")
+            _CACHE_DIR = Path(_CACHE_TEMP_DIR.name)
     else:
-      # Temporary directory
-      # pylint: disable=consider-using-with
-      _CACHE_TEMP_DIR = tempfile.TemporaryDirectory(prefix="offlinetts_")
-      _CACHE_DIR = Path(_CACHE_TEMP_DIR.name)
-  else:
-    _CACHE_DIR = None       # type: ignore
-    _CACHE_TEMP_DIR = None  # type: ignore
-  _LOGGER.debug("Caching WAV files in %s", _CACHE_DIR)
+        _CACHE_DIR = None       # type: ignore
+        _CACHE_TEMP_DIR = None  # type: ignore
+    _LOGGER.debug("Caching WAV files in %s", _CACHE_DIR)
 
 def get_cache_key(text: str, voice: str, settings: str = "") -> str:
     """Get hashed WAV name for cache"""
