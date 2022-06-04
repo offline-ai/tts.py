@@ -11,9 +11,8 @@ import gruut
 
 from pathlib import Path
 
-from offlinetts.tts.tts_base import LOGGER
-
-from .tts import LOGGER as _LOGGER, TTSBase
+from .tts import TTSBase
+from .logger import LOGGER as _LOGGER
 
 WAV_AND_SAMPLE_RATE = typing.Tuple[bytes, int]
 

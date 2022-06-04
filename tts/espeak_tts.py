@@ -2,7 +2,8 @@ import asyncio
 import shutil
 import shlex
 
-from .tts_base import TTSBase, Voice, VoicesIterable, LOGGER as _LOGGER
+from .tts_base import TTSBase, Voice, VoicesIterable
+from ..logger import LOGGER as _LOGGER
 
 class EspeakTTS(TTSBase):
     """Wraps eSpeak (http://espeak.sourceforge.net)"""

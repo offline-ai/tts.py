@@ -18,7 +18,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from zipfile import ZipFile
 
-LOGGER = logging.getLogger("tts")
+from ..logger import LOGGER
+
 _LOOP = asyncio.get_event_loop()
 
 # -----------------------------------------------------------------------------

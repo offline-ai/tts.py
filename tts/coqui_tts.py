@@ -6,7 +6,8 @@ import re
 import typing
 from pathlib import Path
 
-from .tts_base import TTSBase, Voice, VoicesIterable, LOGGER
+from .tts_base import TTSBase, Voice, VoicesIterable
+from ..logger import LOGGER
 
 class CoquiTTS(TTSBase):
     """Wraps Coqui TTS (https://github.com/coqui-ai/TTS)"""
