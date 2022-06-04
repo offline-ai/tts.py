@@ -1,3 +1,19 @@
+## v1.1.0 (2022-06-04)
+
+### Fix
+
+- the running info should not display as error
+- disable cache should be passed false/no/not/f/0
+- should use default_voice first on ssml
+
+### Refactor
+
+- use the new logger util
+
+### Feat
+
+- add logger util
+
 ## v1.0.1 (2022-05-30)
 
 ### Fix
