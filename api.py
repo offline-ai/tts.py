@@ -16,7 +16,9 @@ from quart import (
 )
 from swagger_ui import api_doc
 
-from .tts.tts_base import TTSBase, LOGGER as _LOGGER
+from .tts.tts_base import TTSBase
+from .logger import LOGGER as _LOGGER
+
 from offlinetts.to_wav import (
     text_to_wav,
 )
